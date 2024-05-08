@@ -16,9 +16,9 @@ public class GameManager implements Runnable {
     private Game game;
     private GamePanel gamePanel;
     private int localPlayer;
-    private int miliSecondRate = 1;//milliseconds per frame
-    private float zoomSensitivity = 10;//zoom increment per second
+    private int miliSecondRate = 1;//milliseconds per update
     public boolean isFiring = false;
+    private Thread renderingThread;
 
     public GameManager(Game Game, GamePanel GamePanel, int LocalPlayer){
         game = Game;
@@ -28,6 +28,20 @@ public class GameManager implements Runnable {
     
     public void run() 
     {
+        renderingThread = new Thread(() -> {
+            while (true) {
+                // Render game graphics
+                gamePanel.repaint();
+
+                // Sleep for a short interval
+                try {
+                    Thread.sleep(10); // Adjust as needed
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        renderingThread.start();
         while(true){
         
             try {
@@ -35,7 +49,7 @@ public class GameManager implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            gamePanel.repaint();
+            
             this.update();
         
             
@@ -47,14 +61,26 @@ public class GameManager implements Runnable {
     public synchronized void fireBullet(){
         Gun gun = game.getPlayers().get(localPlayer).getGun();
         if(game.getPlayers().get(localPlayer).getGun().getReloadTime() >= game.getPlayers().get(localPlayer).getGun().getReloadTimeRequirment()){
-            game.getBullets().add(new Bullet(
-                game.getPlayers().get(localPlayer), 
-                game.getPlayers().get(localPlayer).getGun().getDamage(), 
-                (float) (game.getPlayers().get(localPlayer).getXPosition() + game.getPlayers().get(localPlayer).getGun().getBarrelLength()*Math.cos(Math.toRadians(game.getPlayers().get(localPlayer).getAngle()))), 
-                (float) (game.getPlayers().get(localPlayer).getYPosition() + game.getPlayers().get(localPlayer).getGun().getBarrelLength()*Math.sin(Math.toRadians(game.getPlayers().get(localPlayer).getAngle()))),
-                (float) (gun.getBulletSpeed()*Math.cos(Math.toRadians(game.getPlayers().get(localPlayer).getAngle()+(Math.random()*gun.getAccuracy()-gun.getAccuracy()/2)))), 
-                (float) (gun.getBulletSpeed()*Math.sin(Math.toRadians(game.getPlayers().get(localPlayer).getAngle()+(Math.random()*gun.getAccuracy()-gun.getAccuracy()/2))))
-                ));
+
+            if(ColliderManager.isCollidingAnyWalls(
+                game,
+                new LineCollider(
+                    (float) (game.getPlayers().get(localPlayer).getXPosition()),
+                    (float) (game.getPlayers().get(localPlayer).getYPosition()),
+                    (float) (game.getPlayers().get(localPlayer).getXPosition() + game.getPlayers().get(localPlayer).getGun().getBarrelLength()*Math.cos(Math.toRadians(game.getPlayers().get(localPlayer).getAngle()))),
+                    (float) (game.getPlayers().get(localPlayer).getYPosition() + game.getPlayers().get(localPlayer).getGun().getBarrelLength()*Math.sin(Math.toRadians(game.getPlayers().get(localPlayer).getAngle())))
+
+                )
+            ).isEmpty()){
+                game.getBullets().add(new Bullet(
+                    game.getPlayers().get(localPlayer), 
+                    game.getPlayers().get(localPlayer).getGun().getDamage(), 
+                    (float) (game.getPlayers().get(localPlayer).getXPosition() + game.getPlayers().get(localPlayer).getGun().getBarrelLength()*Math.cos(Math.toRadians(game.getPlayers().get(localPlayer).getAngle()))), 
+                    (float) (game.getPlayers().get(localPlayer).getYPosition() + game.getPlayers().get(localPlayer).getGun().getBarrelLength()*Math.sin(Math.toRadians(game.getPlayers().get(localPlayer).getAngle()))),
+                    (float) (gun.getBulletSpeed()*Math.cos(Math.toRadians(game.getPlayers().get(localPlayer).getAngle()+(Math.random()*gun.getAccuracy()-gun.getAccuracy()/2)))), 
+                    (float) (gun.getBulletSpeed()*Math.sin(Math.toRadians(game.getPlayers().get(localPlayer).getAngle()+(Math.random()*gun.getAccuracy()-gun.getAccuracy()/2))))
+                    ));
+            }
 
                 game.getPlayers().get(localPlayer).getGun().setReloadTime(0);
         }
@@ -138,8 +164,6 @@ public class GameManager implements Runnable {
 
             //adjust player in they're colliding
             Vector2 collision = ColliderManager.isCollidingAny(game, game.getPlayers().get(p));
-            int counter = 1;
-            int maxCounter = 10;
             while(collision != null)
             {
                 double dy = game.getPlayers().get(p).getYPosition() - collision.getY();
@@ -155,7 +179,6 @@ public class GameManager implements Runnable {
                 game.getPlayers().get(p).setXPosition(collision.getX() + dx);
                 game.getPlayers().get(p).setYPosition(collision.getY() + dy);
                 collision = ColliderManager.isCollidingAny(game, game.getPlayers().get(p));
-                counter++;
             }
 
 
@@ -213,7 +236,7 @@ public class GameManager implements Runnable {
                 
             }
 
-            if(ColliderManager.isCollidingAnyWalls(game, new LineCollider(bullet.getXPosition(),bullet.getYPosition(), bullet.getXPosition()+bullet.getXVelocity()*miliSecondRate/1000*1.5, bullet.getYPosition()+bullet.getYVelocity()*miliSecondRate/1000*1.5)).size() == 0)
+            if(ColliderManager.isCollidingAnyWalls(game, new LineCollider(bullet.getXPosition() - bullet.getXVelocity()*miliSecondRate/1000*0.5,bullet.getYPosition() - bullet.getYVelocity()*miliSecondRate/1000*0.5, bullet.getXPosition()+bullet.getXVelocity()*miliSecondRate/1000*1.6, bullet.getYPosition()+bullet.getYVelocity()*miliSecondRate/1000*1.6)).size() == 0)
             {
                 bullet.setXPosition(bullet.getXPosition()+bullet.getXVelocity()*miliSecondRate/1000);
                 bullet.setYPosition(bullet.getYPosition()+bullet.getYVelocity()*miliSecondRate/1000);

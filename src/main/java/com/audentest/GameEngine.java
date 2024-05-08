@@ -120,7 +120,7 @@ public class GameEngine extends JFrame
         game.getWalls().add(new Wall(new Vector2(1700,900), new Vector2(1800,900)));
 
 
-        game.getPlayers().add(new Player(Gun.ak47(),50,750, 1));
+        game.getPlayers().add(new Player(Gun.ar15(),50,750, 1));
 
         game.getPlayers().add(new Player(Gun.ar15(),450,750, 2));
         game.getPlayers().add(new Player(Gun.glock9(),250,250, 2));
@@ -149,6 +149,8 @@ public class GameEngine extends JFrame
         MouseClickManager mouseClickManager = new MouseClickManager();
         mouseClickManager.gameManager = gameManager;
         this.addMouseListener(mouseClickManager);
+
+        ;
         gameManager.run();
         this.repaint();
 

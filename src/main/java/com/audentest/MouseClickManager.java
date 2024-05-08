@@ -1,6 +1,5 @@
 package com.audentest;
 
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
 import java.awt.event.MouseEvent;

@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import javax.swing.JFrame;
@@ -41,6 +40,8 @@ public class GamePanel extends JPanel
         this.zoom = zoom < MIN_ZOOM? MIN_ZOOM : zoom;
     }
 
+    
+
     public void paint(Graphics G) { 
         this.setBounds(0,0,parentFrame.getWidth(),parentFrame.getHeight());
         xCamera = game.getPlayers().get(localPlayer).getXPosition();
@@ -51,7 +52,7 @@ public class GamePanel extends JPanel
 
         
         Graphics2D g = (Graphics2D) G.create();
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);//anti aliasing
+        // g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);//anti aliasing
 
 
         //draw player
@@ -85,6 +86,10 @@ public class GamePanel extends JPanel
         g.setColor(Color.DARK_GRAY);
         for (int i = 0; i < game.getWalls().size(); i++){
             Wall wall = game.getWalls().get(i);
+            // if(isOnScreenX(wall.getStart().getX()) && isOnScreenX(wall.getEnd().getX()) && isOnScreenY(wall.getStart().getY()) && isOnScreenY(wall.getEnd().getY())){
+            //     drawShadow(g, wall, parentFrame.getWidth(), parentFrame.getHeight());
+            // }
+
             drawShadow(g, wall, parentFrame.getWidth(), parentFrame.getHeight());
 
 
@@ -138,6 +143,14 @@ public class GamePanel extends JPanel
         return (Y - yCamera)*zoom + this.getHeight()/2;
     }
 
+    private boolean isOnScreenX(double X){
+        return  0 < (X - xCamera)*zoom + this.getWidth()/2 &&  (X - xCamera)*zoom + this.getWidth()/2 < parentFrame.getWidth();
+    }
+
+    private boolean isOnScreenY(double Y){
+        return  0 < (Y - xCamera)*zoom + this.getHeight()/2 && (Y - xCamera)*zoom + this.getHeight()/2 < parentFrame.getHeight();
+    }
+
     public void drawShadow(Graphics2D g,Wall wall, double screenWidth, double screenHeight)
     {
         double r = Math.sqrt((screenHeight/2)*(screenHeight/2) + (screenWidth/2)*(screenWidth/2));
@@ -189,7 +202,9 @@ public class GamePanel extends JPanel
         
         g.fillPolygon(xPoints,yPoints,4);
 
-    };
+    }
+
+
     
     
     
