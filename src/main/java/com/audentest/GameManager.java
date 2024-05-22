@@ -41,7 +41,7 @@ public class GameManager implements Runnable {
                 }
             }
         });
-        renderingThread.start();
+        new Thread(renderingThread).start();
         while(true){
         
             try {

@@ -18,11 +18,12 @@ public class GameEngine extends JFrame
     Game game;
     GameManager gameManager;
     GamePanel gamePanel;
+    ServerCommunicator serverCommunicator;
 
     public GameEngine (String name){
         
         this.setSize(600, 600);
-        this.setVisible(true);
+        this.setVisible(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         
@@ -150,11 +151,13 @@ public class GameEngine extends JFrame
         mouseClickManager.gameManager = gameManager;
         this.addMouseListener(mouseClickManager);
 
-        ;
-        gameManager.run();
+        
+        new Thread(gameManager).start();
         this.repaint();
 
-        
+
+
+        serverCommunicator = new ServerCommunicator(game);
         
     }
 
