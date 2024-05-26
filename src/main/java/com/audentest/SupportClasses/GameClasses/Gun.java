@@ -8,7 +8,7 @@ public class Gun {
     private float bulletSpeed;//units per second
     private float barrelLength;//world units
     private float weight;
-    private Color color;
+    private String color;
     private float reloadTimeRequirment;//in milliseconds
     private float reloadTime;
 
@@ -49,11 +49,11 @@ public class Gun {
     }
     
 
-    public synchronized Color getColor() {
+    public synchronized String getColor() {
         return color;
     }
 
-    public synchronized void setColor(Color color) {
+    public synchronized void setColor(String color) {
         this.color = color;
     }
 
@@ -93,7 +93,7 @@ public class Gun {
         gun.damage = 30;
         gun.barrelLength = 50;
         gun.weight = 15;
-        gun.color = new Color(153, 86, 4);
+        gun.color = "000000";
         gun.reloadTimeRequirment = 100;
         gun.reloadTime = 0;//gun.reloadTimeRequirment;
         gun.bulletSpeed = 5000;
@@ -110,7 +110,7 @@ public class Gun {
         gun.damage = 200;
         gun.barrelLength = 80;
         gun.weight = 30;
-        gun.color = new Color(80, 80, 80);
+        gun.color = "000000";
         gun.reloadTimeRequirment = 3000;
         gun.reloadTime = 0;//gun.reloadTimeRequirment;
         gun.bulletSpeed = 7000;
@@ -126,7 +126,7 @@ public class Gun {
         gun.damage = 100;
         gun.barrelLength = 40;
         gun.weight = 30;
-        gun.color = new Color(0, 0, 0);
+        gun.color = "000000";
         gun.reloadTimeRequirment = 20;
         gun.reloadTime = 0;//gun.reloadTimeRequirment;
         gun.bulletSpeed = 4000;
@@ -142,7 +142,7 @@ public class Gun {
         gun.damage = 100;
         gun.barrelLength = 50;
         gun.weight = 30;
-        gun.color = new Color(0,47,255);
+        gun.color = "000000";
         gun.reloadTimeRequirment = 1;
         gun.reloadTime = 0;//gun.reloadTimeRequirment;
         gun.bulletSpeed = 4000;
@@ -159,7 +159,7 @@ public class Gun {
         gun.damage = 40;
         gun.barrelLength = 50;
         gun.weight = 8;
-        gun.color = new Color(0, 128, 0);
+        gun.color = "000000";
         gun.reloadTimeRequirment = 100;
         gun.reloadTime = gun.reloadTimeRequirment;
         gun.bulletSpeed = 4000;
@@ -175,7 +175,7 @@ public class Gun {
         gun.damage = 30;
         gun.barrelLength = 32;
         gun.weight = 2;
-        gun.color = new Color(0, 0, 0);
+        gun.color = "000000";
         gun.reloadTimeRequirment = 50;
         gun.reloadTime = gun.reloadTimeRequirment;
         gun.bulletSpeed = 4000;
@@ -191,7 +191,7 @@ public class Gun {
         gun.damage = 10;
         gun.barrelLength = 38;
         gun.weight = 10;
-        gun.color = Color.BLACK;
+        gun.color = "000000";
         gun.reloadTimeRequirment = 0.00001f;
         gun.reloadTime = gun.reloadTimeRequirment;
         gun.bulletSpeed = 1000;
@@ -207,7 +207,7 @@ public class Gun {
         gun.damage = 20;
         gun.barrelLength = 34;
         gun.weight = 5;
-        gun.color = Color.DARK_GRAY;
+        gun.color = "000000";
         gun.reloadTimeRequirment = 40;
         gun.reloadTime = gun.reloadTimeRequirment;
         gun.bulletSpeed = 5000;

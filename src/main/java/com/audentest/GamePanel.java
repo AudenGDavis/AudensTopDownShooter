@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -143,13 +142,7 @@ public class GamePanel extends JPanel
         return (Y - yCamera)*zoom + this.getHeight()/2;
     }
 
-    private boolean isOnScreenX(double X){
-        return  0 < (X - xCamera)*zoom + this.getWidth()/2 &&  (X - xCamera)*zoom + this.getWidth()/2 < parentFrame.getWidth();
-    }
-
-    private boolean isOnScreenY(double Y){
-        return  0 < (Y - xCamera)*zoom + this.getHeight()/2 && (Y - xCamera)*zoom + this.getHeight()/2 < parentFrame.getHeight();
-    }
+    
 
     public void drawShadow(Graphics2D g,Wall wall, double screenWidth, double screenHeight)
     {

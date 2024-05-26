@@ -157,7 +157,7 @@ public class GameEngine extends JFrame
 
 
 
-        serverCommunicator = new ServerCommunicator(game);
+        serverCommunicator = new ServerCommunicator(game,42069);
         
     }
 

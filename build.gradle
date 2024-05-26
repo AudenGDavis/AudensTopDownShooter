@@ -14,7 +14,7 @@ jar {
 }
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.7'
+    implementation group: 'com.google.code.gson', name: 'gson', version: '2.7'
 }
 
 mainClassName = 'com.audentest.Main'
