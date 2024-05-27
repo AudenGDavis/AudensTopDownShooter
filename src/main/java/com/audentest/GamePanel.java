@@ -4,6 +4,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -64,7 +65,7 @@ public class GamePanel extends JPanel
                 g.setColor(player.getTeam() == 1? new Color(30, 0, 222) : new Color(235, 16, 0));
                 g.drawOval((int) worldToFrameX((player.getXPosition()-player.getSize())),(int) worldToFrameY((player.getYPosition()-player.getSize())), (int)(2*player.getSize()*zoom), (int)(2*player.getSize()*zoom));
 
-                g.setColor(player.getGun().getColor());
+                g.setColor(Color.decode(player.getGun().getColor()));
                 g.setStroke(new BasicStroke(zoom * 5));
                 g.drawLine(
                     (int)worldToFrameX(player.getXPosition()), 

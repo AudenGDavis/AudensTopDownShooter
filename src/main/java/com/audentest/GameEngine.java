@@ -20,10 +20,12 @@ public class GameEngine extends JFrame
     GamePanel gamePanel;
     ServerCommunicator serverCommunicator;
 
-    public GameEngine (String name){
-        
+    public GameEngine (String name)
+    {
+        this.setTitle("Client");
+
         this.setSize(600, 600);
-        this.setVisible(false);
+        this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         

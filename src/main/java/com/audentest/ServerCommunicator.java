@@ -38,6 +38,9 @@ public class ServerCommunicator
             
             clientReciever = new ClientReciever(connectionInfo.getIpAddress(), connectionInfo.getClientRecieverPortNumber(), Game);
             new Thread(clientReciever).start();
+
+            clientSender = new ClientSender(connectionInfo.getIpAddress(), connectionInfo.getClientSenderPortNumber(), Game);
+            new Thread(clientSender).start();
             System.out.println("starting..");
         } 
         catch (Exception e) 

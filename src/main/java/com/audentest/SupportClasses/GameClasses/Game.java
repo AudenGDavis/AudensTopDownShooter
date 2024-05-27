@@ -32,6 +32,13 @@ public class Game {
     public synchronized void setBullets(ArrayList<Bullet> bullets) {
         this.bullets = bullets;
     }
+
+    public synchronized void importGame(Game importedGame)
+    {
+        this.players = importedGame.getPlayers();
+        this.walls = importedGame.getWalls();
+        this.bullets = importedGame.getBullets();
+    }
 }
 
 //steve parr

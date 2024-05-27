@@ -8,7 +8,7 @@ public class Gun {
     private float bulletSpeed;//units per second
     private float barrelLength;//world units
     private float weight;
-    private String color;
+    private String color; //hexcolor value of the 
     private float reloadTimeRequirment;//in milliseconds
     private float reloadTime;
 
