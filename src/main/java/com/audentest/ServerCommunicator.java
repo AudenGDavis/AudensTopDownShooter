@@ -6,6 +6,9 @@ import com.audentest.SupportClasses.NetworkingClasses.ClientSender;
 import com.audentest.SupportClasses.NetworkingClasses.PlayerConnection;
 
 import java.net.Socket;
+
+import javax.swing.text.PlainDocument;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import com.google.gson.Gson; 
@@ -17,6 +20,7 @@ public class ServerCommunicator
     private String ipAddress = "127.0.0.1";
     private Gson gson = new Gson();
     private ClientReciever clientReciever;
+    private PlayerConnection playerConnection;
     private ClientSender clientSender;
 
     public ServerCommunicator(Game Game, int PortNumber)
@@ -29,12 +33,12 @@ public class ServerCommunicator
             Socket server = new Socket(ipAddress,portNumber);
             BufferedReader in = new BufferedReader(new InputStreamReader(server.getInputStream()));
 
-            PlayerConnection connectionInfo = gson.fromJson(in.readLine(), PlayerConnection.class);
+            playerConnection = gson.fromJson(in.readLine(), PlayerConnection.class);
             
-            clientReciever = new ClientReciever(connectionInfo.getIpAddress(), connectionInfo.getClientRecieverPortNumber(), game);
+            clientReciever = new ClientReciever(playerConnection.getIpAddress(), playerConnection.getClientRecieverPortNumber(), game);
             new Thread(clientReciever).start();
 
-            clientSender = new ClientSender(connectionInfo.getIpAddress(), connectionInfo.getClientSenderPortNumber(), game);
+            clientSender = new ClientSender(playerConnection.getIpAddress(), playerConnection.getClientSenderPortNumber(), game);
             new Thread(clientSender).start();
             System.out.println("starting..");
             server.close();
@@ -43,5 +47,10 @@ public class ServerCommunicator
         {
 
         }
+    }
+
+    public PlayerConnection getPlayerConnection()
+    {
+        return playerConnection;
     }
 }

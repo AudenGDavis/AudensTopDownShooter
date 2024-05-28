@@ -20,13 +20,14 @@ public class GamePanel extends JPanel
     private double yCamera = 0;
     private float zoom = 1f;
     JFrame parentFrame;
-    private int localPlayer = 0;
+    private int localPlayer;
     public static final float MIN_ZOOM = 0.05f;
     
-    public GamePanel(Game Game, JFrame parentFrame){
+    public GamePanel(Game Game, JFrame parentFrame, int LocalPlayer){
         this.game = Game;
         this.parentFrame = parentFrame;
         this.setBackground(Color.GRAY);
+        localPlayer = LocalPlayer;
     }
 
     public float getZoom()

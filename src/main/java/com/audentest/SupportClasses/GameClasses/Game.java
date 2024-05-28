@@ -1,24 +1,25 @@
 package com.audentest.SupportClasses.GameClasses;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class Game {
-    private ArrayList<Player> players;
+    private Dictionary<Integer, Player> players;
     private ArrayList<Wall> walls;
     private ArrayList<Bullet> bullets;
     
 
-    public Game( ArrayList<Player> Players, ArrayList<Wall> Walls ,ArrayList<Bullet> Bullets){
-        players = Players;
+    public Game(ArrayList<Wall> Walls ,ArrayList<Bullet> Bullets){
+        players = new Hashtable<>();
         walls = Walls;
         bullets = Bullets;
     }
 
-    public synchronized void setPlayers(ArrayList<Player> players) {
-        this.players = players;
+    public synchronized void addPlayer(Player Player) {
+        players.put(players.size()+ 1, Player);
     }
-    public synchronized ArrayList<Player> getPlayers() 
-    {
+    public synchronized Dictionary<Integer, Player> getPlayers() {
         return players;
     }
     public synchronized ArrayList<Wall> getWalls() {
