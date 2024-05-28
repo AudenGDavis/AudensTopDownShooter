@@ -1,7 +1,6 @@
 package com.audentest;
 
 import com.audentest.SupportClasses.GameClasses.Game;
-import com.audentest.SupportClasses.GameClasses.Player;
 import com.audentest.SupportClasses.NetworkingClasses.ClientReciever;
 import com.audentest.SupportClasses.NetworkingClasses.ClientSender;
 import com.audentest.SupportClasses.NetworkingClasses.PlayerConnection;
@@ -9,9 +8,6 @@ import com.audentest.SupportClasses.NetworkingClasses.PlayerConnection;
 import java.net.Socket;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-import java.util.Scanner;
 import com.google.gson.Gson; 
 
 public class ServerCommunicator
@@ -32,16 +28,16 @@ public class ServerCommunicator
         {
             Socket server = new Socket(ipAddress,portNumber);
             BufferedReader in = new BufferedReader(new InputStreamReader(server.getInputStream()));
-			PrintWriter out = new PrintWriter(server.getOutputStream(),true);
 
             PlayerConnection connectionInfo = gson.fromJson(in.readLine(), PlayerConnection.class);
             
-            clientReciever = new ClientReciever(connectionInfo.getIpAddress(), connectionInfo.getClientRecieverPortNumber(), Game);
+            clientReciever = new ClientReciever(connectionInfo.getIpAddress(), connectionInfo.getClientRecieverPortNumber(), game);
             new Thread(clientReciever).start();
 
-            clientSender = new ClientSender(connectionInfo.getIpAddress(), connectionInfo.getClientSenderPortNumber(), Game);
+            clientSender = new ClientSender(connectionInfo.getIpAddress(), connectionInfo.getClientSenderPortNumber(), game);
             new Thread(clientSender).start();
             System.out.println("starting..");
+            server.close();
         } 
         catch (Exception e) 
         {

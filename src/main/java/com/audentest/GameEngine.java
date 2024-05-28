@@ -19,8 +19,9 @@ public class GameEngine extends JFrame
     GameManager gameManager;
     GamePanel gamePanel;
     ServerCommunicator serverCommunicator;
+    private int localPlayer;
 
-    public GameEngine (String name)
+    public GameEngine (String name, int LocalPlayer)
     {
         this.setTitle("Client");
 
@@ -28,6 +29,7 @@ public class GameEngine extends JFrame
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        localPlayer = LocalPlayer;
         
 
         game = new Game(new ArrayList<Player>(), new ArrayList<Wall>(), new ArrayList<Bullet>());
@@ -143,7 +145,7 @@ public class GameEngine extends JFrame
 
         this.setBackground(Color.white);
 
-        gameManager = new GameManager(game, gamePanel, 0);
+        gameManager = new GameManager(game, gamePanel, localPlayer);
         
 
         this.addKeyListener(new InputManager());

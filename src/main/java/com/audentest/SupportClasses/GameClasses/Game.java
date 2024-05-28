@@ -17,7 +17,8 @@ public class Game {
     public synchronized void setPlayers(ArrayList<Player> players) {
         this.players = players;
     }
-    public synchronized ArrayList<Player> getPlayers() {
+    public synchronized ArrayList<Player> getPlayers() 
+    {
         return players;
     }
     public synchronized ArrayList<Wall> getWalls() {
