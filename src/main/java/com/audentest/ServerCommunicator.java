@@ -34,11 +34,14 @@ public class ServerCommunicator
             BufferedReader in = new BufferedReader(new InputStreamReader(server.getInputStream()));
 
             playerConnection = gson.fromJson(in.readLine(), PlayerConnection.class);
+            System.out.println(playerConnection.getGame().toString());
             
-            clientReciever = new ClientReciever(playerConnection.getIpAddress(), playerConnection.getClientRecieverPortNumber(), game);
+            game.importGame(playerConnection.getGame());
+            System.out.println(game);
+            clientReciever = new ClientReciever(playerConnection.getIpAddress(), playerConnection.getClientRecieverPortNumber(), game,playerConnection.getPlayerID());
             new Thread(clientReciever).start();
 
-            clientSender = new ClientSender(playerConnection.getIpAddress(), playerConnection.getClientSenderPortNumber(), game);
+            clientSender = new ClientSender(playerConnection.getIpAddress(), playerConnection.getClientSenderPortNumber(), game, playerConnection.getPlayerID());
             new Thread(clientSender).start();
             System.out.println("starting..");
             server.close();
@@ -53,4 +56,6 @@ public class ServerCommunicator
     {
         return playerConnection;
     }
+
+
 }

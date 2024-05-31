@@ -1,16 +1,20 @@
 package com.audentest.SupportClasses.NetworkingClasses;
 
+import com.audentest.SupportClasses.GameClasses.Game;
+
 public class PlayerConnection {
     private int clientSenderPortNumber;
     private int clientRecieverPortNumber;
     private String ipAddress;
     private int playerID;
+    private Game game;
 
-    public PlayerConnection(int ClientSenderPortNumber, int ClientRecieverPortNumber, String IpAddress, int PlayerID){
+    public PlayerConnection(int ClientSenderPortNumber, int ClientRecieverPortNumber, String IpAddress, int PlayerID,Game Game){
         clientSenderPortNumber = ClientSenderPortNumber;
         clientRecieverPortNumber = ClientRecieverPortNumber;
         ipAddress = IpAddress;
         playerID = PlayerID;
+        game = Game;
     }
 
     // Synchronized getter and setter for clientSenderPortNumber
@@ -48,4 +52,13 @@ public class PlayerConnection {
     public synchronized void setPlayerID(int playerID) {
         this.playerID = playerID;
     }
+
+    public synchronized Game getGame() {
+        return game;
+    }
+
+    public synchronized void setGame(Game Game) {
+        this.game = Game;
+    }
 }
+

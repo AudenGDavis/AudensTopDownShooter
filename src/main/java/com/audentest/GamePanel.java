@@ -8,6 +8,8 @@ import java.awt.geom.Line2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import java.util.Map;
+
 import com.audentest.SupportClasses.GameClasses.Game;
 import com.audentest.SupportClasses.GameClasses.Bullet;
 import com.audentest.SupportClasses.GameClasses.Player;
@@ -40,9 +42,8 @@ public class GamePanel extends JPanel
         this.zoom = zoom < MIN_ZOOM? MIN_ZOOM : zoom;
     }
 
-    
-
-    public void paint(Graphics G) { 
+    public void paint(Graphics G)
+    { 
         this.setBounds(0,0,parentFrame.getWidth(),parentFrame.getHeight());
         xCamera = game.getPlayers().get(localPlayer).getXPosition();
         yCamera = game.getPlayers().get(localPlayer).getYPosition();
@@ -58,8 +59,9 @@ public class GamePanel extends JPanel
         //draw player
         g.setStroke(new BasicStroke(zoom * 5));
         
-        for (int i = game.getPlayers().size() -1 ; i >= 0; i--){
-            Player player = game.getPlayers().get(i);
+        for (Map.Entry<Integer, Player> playerEntry : game.getPlayers().entrySet()) 
+        {
+            Player player = game.getPlayers().get(playerEntry.getKey());
             if(player.getHealth() > 0){
                 g.setStroke(new BasicStroke(zoom * 3));
                 g.setColor(player.getTeam() == 1? new Color(30, 0, 222) : new Color(235, 16, 0));

@@ -2,7 +2,7 @@ package com.audentest;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-
+import java.util.Map;
 
 import com.audentest.SupportClasses.GameClasses.Game;
 import com.audentest.SupportClasses.GameClasses.Gun;
@@ -50,9 +50,9 @@ public class GameManager implements Runnable {
                 e.printStackTrace();
             }
             
+            System.out.println(game);
             this.update();
         
-            
 
         }
         
@@ -72,7 +72,7 @@ public class GameManager implements Runnable {
 
                 )
             ).isEmpty()){
-                game.getBullets().add(new Bullet(
+                game.getLocalBullets().add(new Bullet(
                     game.getPlayers().get(localPlayer), 
                     game.getPlayers().get(localPlayer).getGun().getDamage(), 
                     (float) (game.getPlayers().get(localPlayer).getXPosition() + game.getPlayers().get(localPlayer).getGun().getBarrelLength()*Math.cos(Math.toRadians(game.getPlayers().get(localPlayer).getAngle()))), 
@@ -143,50 +143,43 @@ public class GameManager implements Runnable {
 
         gamePanel.setZoom(MouseWheelInputManager.getTotalMouseScroll());
 
-        
         //update player's positions and their respective gun reload times
-        for(int p = 0; p < game.getPlayers().size();p++)
+        for (Map.Entry<Integer, Player> playerEntry : game.getPlayers().entrySet()) 
         {
             //reloading their gun
-            game.getPlayers().get(p).getGun().setReloadTime(
-                game.getPlayers().get(p).getGun().getReloadTime() >= game.getPlayers().get(p).getGun().getReloadTimeRequirment()? 
-                game.getPlayers().get(p).getGun().getReloadTimeRequirment() : game.getPlayers().get(p).getGun().getReloadTime() + miliSecondRate
+            game.getPlayers().get(playerEntry.getKey()).getGun().setReloadTime(
+                game.getPlayers().get(playerEntry.getKey()).getGun().getReloadTime() >= game.getPlayers().get(playerEntry.getKey()).getGun().getReloadTimeRequirment()? 
+                game.getPlayers().get(playerEntry.getKey()).getGun().getReloadTimeRequirment() : game.getPlayers().get(playerEntry.getKey()).getGun().getReloadTime() + miliSecondRate
             );
 
 
             //adjust players position
-            game.getPlayers().get(p).setXPosition(game.getPlayers().get(p).getXVelocity()*(((float)miliSecondRate)/1000) + game.getPlayers().get(p).getXPosition());
-            game.getPlayers().get(p).setYPosition(game.getPlayers().get(p).getYVelocity()*(((float)miliSecondRate)/1000) + game.getPlayers().get(p).getYPosition());
+            game.getPlayers().get(playerEntry.getKey()).setXPosition(game.getPlayers().get(playerEntry.getKey()).getXVelocity()*(((float)miliSecondRate)/1000) + game.getPlayers().get(playerEntry.getKey()).getXPosition());
+            game.getPlayers().get(playerEntry.getKey()).setYPosition(game.getPlayers().get(playerEntry.getKey()).getYVelocity()*(((float)miliSecondRate)/1000) + game.getPlayers().get(playerEntry.getKey()).getYPosition());
 
 
 
 
 
             //adjust player in they're colliding
-            Vector2 collision = ColliderManager.isCollidingAny(game, game.getPlayers().get(p));
+            Vector2 collision = ColliderManager.isCollidingAny(game, game.getPlayers().get(playerEntry.getKey()));
             while(collision != null)
             {
-                double dy = game.getPlayers().get(p).getYPosition() - collision.getY();
-                double dx = game.getPlayers().get(p).getXPosition() - collision.getX();
+                double dy = game.getPlayers().get(playerEntry.getKey()).getYPosition() - collision.getY();
+                double dx = game.getPlayers().get(playerEntry.getKey()).getXPosition() - collision.getX();
 
-                double s = Math.sqrt(dy*dy + dx*dx)/game.getPlayers().get(p).getSize();
+                double s = Math.sqrt(dy*dy + dx*dx)/game.getPlayers().get(playerEntry.getKey()).getSize();
 
                 dy = dy/s*1.00001;
                 dx = dx/s*1.00001;
 
                 
 
-                game.getPlayers().get(p).setXPosition(collision.getX() + dx);
-                game.getPlayers().get(p).setYPosition(collision.getY() + dy);
-                collision = ColliderManager.isCollidingAny(game, game.getPlayers().get(p));
-            }
-
-
-
-
-            
-        }   
-    
+                game.getPlayers().get(playerEntry.getKey()).setXPosition(collision.getX() + dx);
+                game.getPlayers().get(playerEntry.getKey()).setYPosition(collision.getY() + dy);
+               
+            } 
+        }
         //set local player angle
         double dx = MouseInputManager.getMouseX() - gamePanel.getWidth()/2;
         double dy = MouseInputManager.getMouseY() - gamePanel.getHeight()/2;

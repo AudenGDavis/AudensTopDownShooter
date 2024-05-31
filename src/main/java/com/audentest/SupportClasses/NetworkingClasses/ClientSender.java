@@ -13,13 +13,15 @@ public class ClientSender implements  Runnable
     private int portNumber;
     private Game game;
     private Gson gson;
+    private int localPlayer;
 
-    public ClientSender(String IpAddress, int PortNumber, Game Game)
+    public ClientSender(String IpAddress, int PortNumber, Game Game, int LocalPlayer)
     {
         ipAddress = IpAddress;
         portNumber = PortNumber;
         game = Game;
         gson = new Gson();
+        localPlayer = LocalPlayer;
     }
 
 
@@ -44,7 +46,7 @@ public class ClientSender implements  Runnable
         while(true)
         {
             try {
-                out.println(gson.toJson(game,Game.class));
+                out.println(gson.toJson(game.getClientPackage(localPlayer),ClientPackage.class));
             } catch (Exception e) {
                 e.printStackTrace();
             }

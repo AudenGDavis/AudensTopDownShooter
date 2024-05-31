@@ -22,14 +22,17 @@ public class GameEngine extends JFrame
 
     public GameEngine (String name)
     {
+
         this.setTitle("Client");
 
         this.setSize(600, 600);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        serverCommunicator = new ServerCommunicator(game,42069);
+        game = new Game();
 
+        serverCommunicator = new ServerCommunicator(game,42069);
+        
         gamePanel = new GamePanel(game, this, serverCommunicator.getPlayerConnection().getPlayerID());
         this.add(gamePanel);
 

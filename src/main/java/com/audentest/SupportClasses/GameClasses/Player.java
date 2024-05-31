@@ -14,12 +14,13 @@ public class Player {
     private double angle = 180;//in degrees
     private double size = 30;
 
-    public Player(Gun gun, double xPosition, double yPosition, int team){
+    public Player(Gun gun, double xPosition, double yPosition, int team,int PlayerID){
         this.gun = gun;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.team = team;
         this.health = 100;
+        this.playerID = PlayerID;
     }
 
     // Getter and setter for gun

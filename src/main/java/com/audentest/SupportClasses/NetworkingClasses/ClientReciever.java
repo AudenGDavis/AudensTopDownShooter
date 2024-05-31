@@ -6,18 +6,23 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import com.google.gson.Gson;
 
 public class ClientReciever implements Runnable
 {
     private String ipAddress;
     private int portNumber;
     private Game game;
+    private Gson gson;
+    private int localPlayer;
 
-    public ClientReciever(String IpAddress, int PortNumber, Game Game)
+    public ClientReciever(String IpAddress, int PortNumber, Game Game,int LocalPlayer)
     {
         ipAddress = IpAddress;
         portNumber = PortNumber;
         game = Game;
+        localPlayer = LocalPlayer;
+        gson = new Gson();
     }
 
 
@@ -41,9 +46,12 @@ public class ClientReciever implements Runnable
 
         while(true)
         {
-            try {
-                System.out.println(in.readLine());
-            } catch (Exception e) {
+            try
+            {
+                game.updateFromServer(gson.fromJson(in.readLine(),Game.class), localPlayer);
+            } 
+            catch (Exception e) 
+            {
                 e.printStackTrace();
             }
         }
