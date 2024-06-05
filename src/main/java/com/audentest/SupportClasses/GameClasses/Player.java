@@ -24,91 +24,91 @@ public class Player {
     }
 
     // Getter and setter for gun
-    public synchronized Gun getGun() {
+    public Gun getGun() {
         return gun;
     }
 
-    public synchronized void setGun(Gun gun) {
+    public void setGun(Gun gun) {
         this.gun = gun;
     }
 
     // Getter and setter for team
-    public synchronized int getTeam() {
+    public int getTeam() {
         return team;
     }
 
-    public synchronized void setTeam(int team) {
+    public void setTeam(int team) {
         this.team = team;
     }
 
     // Getter and setter for health
-    public synchronized int getHealth() {
+    public int getHealth() {
         return health;
     }
 
-    public synchronized void setHealth(int health) {
+    public void setHealth(int health) {
         this.health = health;
     }
 
     // Getter and setter for playerID
-    public synchronized int getPlayerID() {
+    public int getPlayerID() {
         return playerID;
     }
 
-    public synchronized void setPlayerID(int playerID) {
+    public void setPlayerID(int playerID) {
         this.playerID = playerID;
     }
 
     // Getter and setter for xVelocity
-    public synchronized double getXVelocity() {
+    public double getXVelocity() {
         return xVelocity;
     }
 
-    public synchronized void setXVelocity(double xVelocity) {
+    public void setXVelocity(double xVelocity) {
         this.xVelocity = xVelocity;
     }
 
     // Getter and setter for yVelocity
-    public synchronized double getYVelocity() {
+    public double getYVelocity() {
         return yVelocity;
     }
 
-    public synchronized void setYVelocity(double yVelocity) {
+    public void setYVelocity(double yVelocity) {
         this.yVelocity = yVelocity;
     }
 
     // Getter and setter for xPosition
-    public synchronized double getXPosition() {
+    public double getXPosition() {
         return xPosition;
     }
 
-    public synchronized void setXPosition(double xPosition) {
+    public void setXPosition(double xPosition) {
         this.xPosition = xPosition;
     }
 
     // Getter and setter for yPosition
-    public synchronized double getYPosition() {
+    public double getYPosition() {
         return yPosition;
     }
 
-    public synchronized void setYPosition(double yPosition) {
+    public void setYPosition(double yPosition) {
         this.yPosition = yPosition;
     }
 
     // Getter for size
-    public synchronized double getSize() {
+    public double getSize() {
         return size;
     }
 
-    public synchronized CircleCollider getCollider() {
+    public CircleCollider getCollider() {
         return new CircleCollider(xPosition, yPosition, size);
     }
 
-    public synchronized double getAngle() {
+    public double getAngle() {
         return angle;
     }
 
-    public synchronized void setAngle(double Angle) {
+    public void setAngle(double Angle) {
         this.angle = Angle;
     }
 }

@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.RenderingHints;
+import java.awt.Polygon;
 
 import java.util.Map;
 
@@ -53,33 +55,36 @@ public class GamePanel extends JPanel
 
         
         Graphics2D g = (Graphics2D) G.create();
-        // g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);//anti aliasing
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);//anti aliasing
 
 
         //draw player
-        g.setStroke(new BasicStroke(zoom * 5));
-        
-        for (Map.Entry<Integer, Player> playerEntry : game.getPlayers().entrySet()) 
+        synchronized(game.getPlayers())
         {
-            Player player = game.getPlayers().get(playerEntry.getKey());
-            if(player.getHealth() > 0){
-                g.setStroke(new BasicStroke(zoom * 3));
-                g.setColor(player.getTeam() == 1? new Color(30, 0, 222) : new Color(235, 16, 0));
-                g.drawOval((int) worldToFrameX((player.getXPosition()-player.getSize())),(int) worldToFrameY((player.getYPosition()-player.getSize())), (int)(2*player.getSize()*zoom), (int)(2*player.getSize()*zoom));
-
-                g.setColor(Color.decode(player.getGun().getColor()));
-                g.setStroke(new BasicStroke(zoom * 5));
-                g.drawLine(
-                    (int)worldToFrameX(player.getXPosition()), 
-                    (int)worldToFrameY(player.getYPosition()), 
-                    (int)worldToFrameX(player.getXPosition() + player.getGun().getBarrelLength()*Math.cos(Math.toRadians(player.getAngle()))), 
-                    (int)worldToFrameY(player.getYPosition() + player.getGun().getBarrelLength()*Math.sin(Math.toRadians(player.getAngle()))));
-            }
-            else
+            g.setStroke(new BasicStroke(zoom * 5));
+        
+            for (Map.Entry<Integer, Player> playerEntry : game.getPlayers().entrySet()) 
             {
-                g.setStroke(new BasicStroke(zoom * 3));
-                g.setColor(Color.DARK_GRAY);
-                g.drawOval((int) worldToFrameX((player.getXPosition()-player.getSize())),(int) worldToFrameY((player.getYPosition()-player.getSize())), (int)(2*player.getSize()*zoom), (int)(2*player.getSize()*zoom));
+                Player player = game.getPlayers().get(playerEntry.getKey());
+                if(player.getHealth() > 0){
+                    g.setStroke(new BasicStroke(zoom * 3));
+                    g.setColor(player.getTeam() == 1? new Color(30, 0, 222) : new Color(235, 16, 0));
+                    g.drawOval((int) worldToFrameX((player.getXPosition()-player.getSize())),(int) worldToFrameY((player.getYPosition()-player.getSize())), (int)(2*player.getSize()*zoom), (int)(2*player.getSize()*zoom));
+
+                    g.setColor(Color.decode(player.getGun().getColor()));
+                    g.setStroke(new BasicStroke(zoom * 5));
+                    g.drawLine(
+                        (int)worldToFrameX(player.getXPosition()), 
+                        (int)worldToFrameY(player.getYPosition()), 
+                        (int)worldToFrameX(player.getXPosition() + player.getGun().getBarrelLength()*Math.cos(Math.toRadians(player.getAngle()))), 
+                        (int)worldToFrameY(player.getYPosition() + player.getGun().getBarrelLength()*Math.sin(Math.toRadians(player.getAngle()))));
+                }
+                else
+                {
+                    g.setStroke(new BasicStroke(zoom * 3));
+                    g.setColor(Color.DARK_GRAY);
+                    g.drawOval((int) worldToFrameX((player.getXPosition()-player.getSize())),(int) worldToFrameY((player.getYPosition()-player.getSize())), (int)(2*player.getSize()*zoom), (int)(2*player.getSize()*zoom));
+                }
             }
         }
 
@@ -122,10 +127,13 @@ public class GamePanel extends JPanel
             Bullet bullet = game.getBullets().get(b);
             g.setStroke(new BasicStroke(zoom * 5));
             g.drawLine((int)worldToFrameX(bullet.getXPosition()), (int)worldToFrameY(bullet.getYPosition()), (int)worldToFrameX(bullet.getXPosition() + bullet.getXVelocity()/100), (int)worldToFrameY(bullet.getYPosition() + bullet.getYVelocity()/100));
-            
-            
+        }
 
-  
+        for (int b = 0; b < game.getLocalBullets().size(); b++)
+        {
+            Bullet bullet = game.getLocalBullets().get(b);
+            g.setStroke(new BasicStroke(zoom * 5));
+            g.drawLine((int)worldToFrameX(bullet.getXPosition()), (int)worldToFrameY(bullet.getYPosition()), (int)worldToFrameX(bullet.getXPosition() + bullet.getXVelocity()/100), (int)worldToFrameY(bullet.getYPosition() + bullet.getYVelocity()/100));
         }
 
         
@@ -154,50 +162,57 @@ public class GamePanel extends JPanel
         int[] xPoints = new int[4];
         int[] yPoints = new int[4];
 
+        int x0 = (int) worldToFrameX(wall.getStart().getX());
+        xPoints[0] = x0;
+        int y0 = (int) worldToFrameY(wall.getStart().getY());
+        yPoints[0] = y0;
 
-        xPoints[0] = (int) worldToFrameX(wall.getStart().getX());
-        yPoints[0] = (int) worldToFrameY(wall.getStart().getY());
-
-        xPoints[1] = (int) worldToFrameX(wall.getEnd().getX()); 
-        yPoints[1] = (int) worldToFrameY(wall.getEnd().getY());
+        int x1 = (int) worldToFrameX(wall.getEnd().getX()); 
+        xPoints[1] = x1;
+        int y1 = (int) worldToFrameY(wall.getEnd().getY());
+        yPoints[1] = y1;
 
         
-        xPoints[3] = (int)(screenWidth/2) + (int) ShadowClass.getShadowPointX(
+        int x3 = (int)(screenWidth/2) + (int) ShadowClass.getShadowPointX(
             worldToFrameX(wall.getStart().getX()) - screenWidth/2, 
             worldToFrameY(wall.getStart().getY())- screenHeight/2, 
             worldToFrameX(wall.getEnd().getX()) - screenWidth/2, 
             worldToFrameY(wall.getEnd().getY())- screenHeight/2, 
             r);
+        xPoints[3] = x3;
 
-
-            
-
-            
-        yPoints[3] = (int)(screenHeight/2) + (int) ShadowClass.getShadowPointY(
+        int y3 = (int)(screenHeight/2) + (int) ShadowClass.getShadowPointY(
             worldToFrameX(wall.getStart().getX()) - screenWidth/2, 
             worldToFrameY(wall.getStart().getY()) - screenHeight/2, 
             worldToFrameX(wall.getEnd().getX()) - screenWidth/2, 
             worldToFrameY(wall.getEnd().getY()) - screenHeight/2, 
             r);
-
-             
-        xPoints[2] = (int)(screenWidth/2) + (int) ShadowClass.getShadowPointX(
+        yPoints[3] = y3;
+           
+        int x2 = (int)(screenWidth/2) + (int) ShadowClass.getShadowPointX(
             worldToFrameX(wall.getEnd().getX()) - screenWidth/2, 
             worldToFrameY(wall.getEnd().getY())- screenHeight/2, 
             worldToFrameX(wall.getStart().getX()) - screenWidth/2, 
             worldToFrameY(wall.getStart().getY())- screenHeight/2, 
             r);
+        xPoints[2] = x2;
 
-        yPoints[2] = (int)(screenHeight/2) + (int) ShadowClass.getShadowPointY(
+        int y2 = (int)(screenHeight/2) + (int) ShadowClass.getShadowPointY(
             worldToFrameX(wall.getEnd().getX()) - screenWidth/2, 
             worldToFrameY(wall.getEnd().getY())- screenHeight/2, 
             worldToFrameX(wall.getStart().getX()) - screenWidth/2, 
             worldToFrameY(wall.getStart().getY())- screenHeight/2, 
             r);
+        yPoints[2] = y2;
 
         
-        g.fillPolygon(xPoints,yPoints,4);
 
+        Polygon polygon = new Polygon(xPoints,yPoints,4);
+
+        g.setStroke(new BasicStroke(3));
+        g.drawLine(x0,y0,x3,y3);
+        g.drawLine(x1,y1,x2,y2);
+        g.fill(polygon);
     }
 
 

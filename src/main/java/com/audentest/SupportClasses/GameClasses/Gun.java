@@ -12,71 +12,71 @@ public class Gun {
     private float reloadTime;
 
     // Getter methods
-    public synchronized int getDamage() {
+    public int getDamage() {
         return damage;
     }
 
-    public synchronized float getAccuracy() {
+    public float getAccuracy() {
         return accuracy;
     }
 
     
 
-    public synchronized float getBarrelLength() {
+    public float getBarrelLength() {
         return barrelLength;
     }
 
-    public synchronized float getWeight() {
+    public float getWeight() {
         return weight;
     }
 
     // Setter methods
-    public synchronized void setDamage(int damage) {
+    public void setDamage(int damage) {
         this.damage = damage;
     }
 
-    public synchronized void setAccuracy(float accuracy) {
+    public void setAccuracy(float accuracy) {
         this.accuracy = accuracy;
     }
 
-    public synchronized void setBarrelLength(float barrelLength) {
+    public void setBarrelLength(float barrelLength) {
         this.barrelLength = barrelLength;
     }
 
-    public synchronized void setWeight(float weight) {
+    public void setWeight(float weight) {
         this.weight = weight;
     }
     
 
-    public synchronized String getColor() {
+    public String getColor() {
         return color;
     }
 
-    public synchronized void setColor(String color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
-    public synchronized void setReloadTime(float reloadTime)
+    public void setReloadTime(float reloadTime)
     {
         this.reloadTime = reloadTime;
     }
 
-    public synchronized float getReloadTime()
+    public float getReloadTime()
     {
         return reloadTime;
     }
 
-    public synchronized float getReloadTimeRequirment()
+    public float getReloadTimeRequirment()
     {
         return reloadTimeRequirment;
     }
 
-    public synchronized float getBulletSpeed()
+    public float getBulletSpeed()
     {
         return bulletSpeed;
     }
 
-    public synchronized void setBulletSpeed(float bulletSpeed)
+    public void setBulletSpeed(float bulletSpeed)
     {
         this.bulletSpeed = bulletSpeed;
     }

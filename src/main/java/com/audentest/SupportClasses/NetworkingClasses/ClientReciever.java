@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 public class ClientReciever implements Runnable
 {
@@ -15,7 +16,7 @@ public class ClientReciever implements Runnable
     private Game game;
     private Gson gson;
     private int localPlayer;
-
+    private BufferedReader in = null;
     public ClientReciever(String IpAddress, int PortNumber, Game Game,int LocalPlayer)
     {
         ipAddress = IpAddress;
@@ -29,7 +30,7 @@ public class ClientReciever implements Runnable
     public void run() 
     {
         Socket server;
-        BufferedReader in = null;
+        
 		PrintWriter out = null;
 
         try 
@@ -57,5 +58,4 @@ public class ClientReciever implements Runnable
         }
         
     }
-    
 }

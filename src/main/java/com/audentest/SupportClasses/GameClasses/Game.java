@@ -33,63 +33,78 @@ public class Game
     {
         players.put(Player.getPlayerID(), Player);
     }
-    public synchronized Map<Integer, Player> getPlayers() 
+    public Map<Integer, Player> getPlayers() 
     {
         return players;
     }
-    public synchronized ArrayList<Wall> getWalls() 
+    public ArrayList<Wall> getWalls() 
     {
         return walls;
     }
-    public synchronized void setWalls(ArrayList<Wall> walls) 
+    public void setWalls(ArrayList<Wall> walls) 
     {
         this.walls = walls;
     }
-    public synchronized ArrayList<Bullet> getBullets() 
+    public ArrayList<Bullet> getBullets() 
     {
         return bullets;
     }
-    public synchronized void setBullets(ArrayList<Bullet> bullets) 
+    public void setBullets(ArrayList<Bullet> bullets) 
     {
         this.bullets = bullets;
     }
-    public synchronized ArrayList<Bullet> getLocalBullets() 
+    public ArrayList<Bullet> getLocalBullets() 
     {
         return localBullets;
     }
-    public synchronized void setLocalBullets(ArrayList<Bullet> LocalBullets) 
+    public void setLocalBullets(ArrayList<Bullet> LocalBullets) 
     {
         this.localBullets = LocalBullets;
     }
 
     public synchronized void importGame(Game importedGame)
     {
-        this.players = importedGame.getPlayers();
-        this.walls = importedGame.getWalls();
-        this.bullets = importedGame.getBullets();
+        synchronized(players)
+        {
+            this.players = importedGame.getPlayers();
+        }
+
+        synchronized(walls)
+        {
+            this.walls = importedGame.getWalls();
+        }
+
+        synchronized(bullets)
+        {
+            this.bullets = importedGame.getBullets();
+        }
     }
 
     public synchronized ClientPackage getClientPackage(int localPlayer)
     {
-        ClientPackage clientPackage = new ClientPackage();
-
-        
-
-        clientPackage.setBullets(localBullets);
-        clientPackage.setLocalPlayer(players.get(localPlayer));
-
-        for(Bullet localBullet : localBullets)
+        synchronized (localBullets)
         {
-            bullets.add(localBullet);
+            ClientPackage clientPackage = new ClientPackage();
+
+            
+
+            clientPackage.setBullets(localBullets);
+            clientPackage.setLocalPlayer(players.get(localPlayer));
+
+            for(Bullet localBullet : localBullets)
+            {
+                bullets.add(localBullet);
+            }
+
+            localBullets = new ArrayList<Bullet>();
+
+            return clientPackage;
         }
-
-        localBullets = new ArrayList<Bullet>();
-
-        return clientPackage;
     }
 
     public synchronized void updateFromServer(Game serverGame, int localPlayer)
     {
+        
         this.walls = serverGame.getWalls();
         this.bullets = serverGame.getBullets();
         for (Map.Entry<Integer, Player> serverEntry : serverGame.getPlayers().entrySet()) 
@@ -99,6 +114,7 @@ public class Game
                 players.put(serverEntry.getKey(), serverEntry.getValue());
             }
         }
+        
     }
 
     public String toString()

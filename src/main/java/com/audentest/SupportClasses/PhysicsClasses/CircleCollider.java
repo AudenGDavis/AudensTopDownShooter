@@ -2,7 +2,8 @@ package com.audentest.SupportClasses.PhysicsClasses;
 
 
 
-public class CircleCollider {
+public class CircleCollider 
+{
     private double xStart;
     private double yStart;
     private double radius;
@@ -14,27 +15,27 @@ public class CircleCollider {
     }
     
 
-    public synchronized double getXStart() {
+    public double getXStart() {
         return xStart;
     }
 
-    public synchronized void setXStart(double xStart) {
+    public void setXStart(double xStart) {
         this.xStart = xStart;
     }
 
-    public synchronized double getYStart() {
+    public double getYStart() {
         return yStart;
     }
 
-    public synchronized void setYStart(double yStart) {
+    public void setYStart(double yStart) {
         this.yStart = yStart;
     }
 
-    public synchronized double getRadius() {
+    public double getRadius() {
         return radius;
     }
 
-    public synchronized void setRadius(double radius) {
+    public void setRadius(double radius) {
         this.radius = radius;
     }
 
@@ -43,4 +44,3 @@ public class CircleCollider {
         return "(" + xStart + ", " + yStart + ", " + radius + ") ";
     }
 }
-

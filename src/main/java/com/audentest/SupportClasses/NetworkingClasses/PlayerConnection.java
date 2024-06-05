@@ -18,46 +18,46 @@ public class PlayerConnection {
     }
 
     // Synchronized getter and setter for clientSenderPortNumber
-    public synchronized int getClientSenderPortNumber() {
+    public int getClientSenderPortNumber() {
         return clientSenderPortNumber;
     }
 
-    public synchronized void setClientSenderPortNumber(int clientSenderPortNumber) {
+    public void setClientSenderPortNumber(int clientSenderPortNumber) {
         this.clientSenderPortNumber = clientSenderPortNumber;
     }
 
     // Synchronized getter and setter for clientRecieverPortNumber
-    public synchronized int getClientRecieverPortNumber() {
+    public int getClientRecieverPortNumber() {
         return clientRecieverPortNumber;
     }
 
-    public synchronized void setClientRecieverPortNumber(int clientRecieverPortNumber) {
+    public void setClientRecieverPortNumber(int clientRecieverPortNumber) {
         this.clientRecieverPortNumber = clientRecieverPortNumber;
     }
 
     // Synchronized getter and setter for ipAddress
-    public synchronized String getIpAddress() {
+    public String getIpAddress() {
         return ipAddress;
     }
 
-    public synchronized void setIpAddress(String ipAddress) {
+    public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
 
     // Synchronized getter and setter for playerID
-    public synchronized int getPlayerID() {
+    public int getPlayerID() {
         return playerID;
     }
 
-    public synchronized void setPlayerID(int playerID) {
+    public void setPlayerID(int playerID) {
         this.playerID = playerID;
     }
 
-    public synchronized Game getGame() {
+    public Game getGame() {
         return game;
     }
 
-    public synchronized void setGame(Game Game) {
+    public void setGame(Game Game) {
         this.game = Game;
     }
 }

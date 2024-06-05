@@ -11,22 +11,22 @@ public class ClientPackage
     private ArrayList<Bullet> bullets;
 
     // Synchronized getter for localPlayer
-    public synchronized Player getLocalPlayer() {
+    public Player getLocalPlayer() {
         return localPlayer;
     }
 
     // Synchronized setter for localPlayer
-    public synchronized void setLocalPlayer(Player localPlayer) {
+    public void setLocalPlayer(Player localPlayer) {
         this.localPlayer = localPlayer;
     }
 
     // Synchronized getter for bullets
-    public synchronized ArrayList<Bullet> getBullets() {
+    public ArrayList<Bullet> getBullets() {
         return bullets;
     }
 
     // Synchronized setter for bullets
-    public synchronized void setBullets(ArrayList<Bullet> bullets) {
+    public void setBullets(ArrayList<Bullet> bullets) {
         this.bullets = bullets;
     }
 }

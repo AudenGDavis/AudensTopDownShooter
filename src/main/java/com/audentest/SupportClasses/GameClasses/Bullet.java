@@ -20,58 +20,58 @@ public class Bullet {
 
     
     // Getter and setter for 'shotBy' field
-    public synchronized Player getShotBy() {
+    public Player getShotBy() {
         return shotBy;
     }
 
-    public synchronized void setShotBy(Player shotBy) {
+    public void setShotBy(Player shotBy) {
         this.shotBy = shotBy;
     }
 
     // Getter and setter for 'velocity' field
-    public synchronized int getDamage() {
+    public int getDamage() {
         return damage;
     }
 
-    public synchronized void setdamage(int damage) {
+    public void setdamage(int damage) {
         this.damage = damage;
     }
 
 
 
     // Getter and setter for 'xVelocity' field
-    public synchronized float getXVelocity() {
+    public float getXVelocity() {
         return xVelocity;
     }
 
-    public synchronized void setXVelocity(float xVelocity) {
+    public void setXVelocity(float xVelocity) {
         this.xVelocity = xVelocity;
     }
 
     // Getter and setter for 'yVelocity' field
-    public synchronized float getYVelocity() {
+    public float getYVelocity() {
         return yVelocity;
     }
 
-    public synchronized void setYVelocity(float yVelocity) {
+    public void setYVelocity(float yVelocity) {
         this.yVelocity = yVelocity;
     }
 
     // Getter and setter for 'xPositon' field
-    public synchronized float getXPosition() {
+    public float getXPosition() {
         return xPosition;
     }
 
-    public synchronized void setXPosition(float xPosition) {
+    public void setXPosition(float xPosition) {
         this.xPosition = xPosition;
     }
 
     // Getter and setter for 'yPositon' field
-    public synchronized float getYPosition() {
+    public float getYPosition() {
         return yPosition;
     }
 
-    public synchronized void setYPosition(float yPosition) {
+    public void setYPosition(float yPosition) {
         this.yPosition = yPosition;
     }
 }

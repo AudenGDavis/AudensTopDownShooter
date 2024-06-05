@@ -1,6 +1,7 @@
 package com.audentest;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.audentest.SupportClasses.GameClasses.Game;
 import com.audentest.SupportClasses.GameClasses.Player;
@@ -183,13 +184,13 @@ public abstract class ColliderManager {
     public static ArrayList<Player> isCollidingAnyPlayers(Game game,LineCollider lineCollider)
     {
         ArrayList<Player> players = new ArrayList<>();
-        for(int p = 0; p < game.getPlayers().size();p++)
-        {   
 
-            Vector2 collision = isColliding(lineCollider, game.getPlayers().get(p).getCollider());
+        for (Map.Entry<Integer, Player> playerEntry : game.getPlayers().entrySet()) 
+        {
+            Vector2 collision = isColliding(lineCollider, game.getPlayers().get(playerEntry.getKey()).getCollider());
             if(collision != null)
             {
-                players.add(game.getPlayers().get(p));
+                players.add(game.getPlayers().get(playerEntry.getKey()));
             }
         }
 

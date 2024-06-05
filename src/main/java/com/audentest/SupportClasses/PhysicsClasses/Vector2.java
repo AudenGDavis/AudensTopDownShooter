@@ -13,19 +13,19 @@ public class Vector2 {
         return "(" + x + ", " + y + ")";
     }
 
-    public synchronized double getX() {
+    public double getX() {
         return x;
     }
 
-    public synchronized void setX(double x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public synchronized double getY() {
+    public double getY() {
         return y;
     }
 
-    public synchronized void setY(double y) {
+    public void setY(double y) {
         this.y = y;
     }
 

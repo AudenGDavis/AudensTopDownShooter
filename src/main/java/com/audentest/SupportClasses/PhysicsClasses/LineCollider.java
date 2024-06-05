@@ -18,35 +18,35 @@ public class LineCollider {
 
 
 
-    public synchronized double getXStart() {
+    public double getXStart() {
         return xStart;
     }
 
-    public synchronized void setXStart(double xStart) {
+    public void setXStart(double xStart) {
         this.xStart = xStart;
     }
 
-    public synchronized double getYStart() {
+    public double getYStart() {
         return yStart;
     }
 
-    public synchronized void setYStart(double yStart) {
+    public void setYStart(double yStart) {
         this.yStart = yStart;
     }
 
-    public synchronized double getXEnd() {
+    public double getXEnd() {
         return xEnd;
     }
 
-    public synchronized void setXEnd(double xEnd) {
+    public void setXEnd(double xEnd) {
         this.xEnd = xEnd;
     }
 
-    public synchronized double getYEnd() {
+    public double getYEnd() {
         return yEnd;
     }
 
-    public synchronized void setYEnd(double yEnd) {
+    public void setYEnd(double yEnd) {
         this.yEnd = yEnd;
     }
 
