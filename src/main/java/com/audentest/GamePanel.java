@@ -88,6 +88,22 @@ public class GamePanel extends JPanel
             }
         }
 
+        //draw bullets
+        g.setColor(Color.RED);
+        g.setStroke(new BasicStroke(zoom * 3));
+        for (int b = 0; b < game.getBullets().size(); b++)
+        {
+            Bullet bullet = game.getBullets().get(b);
+            g.setStroke(new BasicStroke(zoom * 5));
+            g.drawLine((int)worldToFrameX(bullet.getXPosition()), (int)worldToFrameY(bullet.getYPosition()), (int)worldToFrameX(bullet.getXPosition() + bullet.getXVelocity()/100), (int)worldToFrameY(bullet.getYPosition() + bullet.getYVelocity()/100));
+        }
+
+        for (int b = 0; b < game.getLocalBullets().size(); b++)
+        {
+            Bullet bullet = game.getLocalBullets().get(b);
+            g.setStroke(new BasicStroke(zoom * 5));
+            g.drawLine((int)worldToFrameX(bullet.getXPosition()), (int)worldToFrameY(bullet.getYPosition()), (int)worldToFrameX(bullet.getXPosition() + bullet.getXVelocity()/100), (int)worldToFrameY(bullet.getYPosition() + bullet.getYVelocity()/100));
+        }
 
         //draw shadows
         g.setColor(Color.DARK_GRAY);
@@ -119,22 +135,7 @@ public class GamePanel extends JPanel
         
         
 
-        //draw bullets
-        g.setColor(Color.RED);
-        g.setStroke(new BasicStroke(zoom * 3));
-        for (int b = 0; b < game.getBullets().size(); b++)
-        {
-            Bullet bullet = game.getBullets().get(b);
-            g.setStroke(new BasicStroke(zoom * 5));
-            g.drawLine((int)worldToFrameX(bullet.getXPosition()), (int)worldToFrameY(bullet.getYPosition()), (int)worldToFrameX(bullet.getXPosition() + bullet.getXVelocity()/100), (int)worldToFrameY(bullet.getYPosition() + bullet.getYVelocity()/100));
-        }
-
-        for (int b = 0; b < game.getLocalBullets().size(); b++)
-        {
-            Bullet bullet = game.getLocalBullets().get(b);
-            g.setStroke(new BasicStroke(zoom * 5));
-            g.drawLine((int)worldToFrameX(bullet.getXPosition()), (int)worldToFrameY(bullet.getYPosition()), (int)worldToFrameX(bullet.getXPosition() + bullet.getXVelocity()/100), (int)worldToFrameY(bullet.getYPosition() + bullet.getYVelocity()/100));
-        }
+        
 
         
 

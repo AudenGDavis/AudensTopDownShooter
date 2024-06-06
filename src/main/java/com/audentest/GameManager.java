@@ -83,12 +83,13 @@ public class GameManager implements Runnable {
         
     }
 
-    public synchronized void fireBullet(){
-
+    public synchronized void fireBullet()
+    {
         
         Gun gun = game.getPlayers().get(localPlayer).getGun();
-        if(game.getPlayers().get(localPlayer).getGun().getReloadTime() >= game.getPlayers().get(localPlayer).getGun().getReloadTimeRequirment()){
-            System.out.println("trying");
+        System.out.println(game.getPlayers().get(localPlayer).getGun().getReloadTime() + " - " + game.getPlayers().get(localPlayer).getGun().getReloadTimeRequirment());
+        if(game.getPlayers().get(localPlayer).getGun().getReloadTime() >= game.getPlayers().get(localPlayer).getGun().getReloadTimeRequirment())
+        {
             if(ColliderManager.isCollidingAnyWalls(
                 game,
                 new LineCollider(
@@ -99,7 +100,6 @@ public class GameManager implements Runnable {
 
                 )
             ).isEmpty()){
-                System.out.println("fired");
                 game.getLocalBullets().add(new Bullet(
                     game.getPlayers().get(localPlayer), 
                     game.getPlayers().get(localPlayer).getGun().getDamage(), 
@@ -237,30 +237,32 @@ public class GameManager implements Runnable {
             for(int b = game.getBullets().size()-1; b >= 0;b--)
             {
                 Bullet bullet = game.getBullets().get(b);
-                boolean realCollision = false;
-                ArrayList<Player> playerCollisons = ColliderManager.isCollidingAnyPlayers(game,new LineCollider(bullet.getXPosition(),bullet.getYPosition(), bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000*1.5, bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000*1.5));
-                if(playerCollisons.size() != 0){
-                    for(int i = 0; i < playerCollisons.size(); i++)
-                    {   
-                        if(playerCollisons.get(i).getHealth() >= 0){
-                            playerCollisons.get(i).setHealth(playerCollisons.get(i).getHealth() - (bullet.getDamage()));
-                            realCollision = true;
-                        }
-                    }
+                // boolean realCollision = false;
+                // ArrayList<Player> playerCollisons = ColliderManager.isCollidingAnyPlayers(game,new LineCollider(bullet.getXPosition(),bullet.getYPosition(), bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000*1.5, bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000*1.5));
+                // if(playerCollisons.size() != 0){
+                //     for(int i = 0; i < playerCollisons.size(); i++)
+                //     {   
+                //         if(playerCollisons.get(i).getHealth() >= 0){
+                //             playerCollisons.get(i).setHealth(playerCollisons.get(i).getHealth() - (bullet.getDamage()));
+                //             realCollision = true;
+                //         }
+                //     }
                     
-                }
+                // }
 
-                if(ColliderManager.isCollidingAnyWalls(game, new LineCollider(bullet.getXPosition() - bullet.getXVelocity()*deltaTime/1000000000*0.5,bullet.getYPosition() - bullet.getYVelocity()*deltaTime/1000000000*0.5, bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000*1.6, bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000*1.6)).size() == 0)
-                {
-                    bullet.setXPosition((float)(bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000));
-                    bullet.setYPosition((float)(bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000));
-                }
-                else{
-                    realCollision = true;
-                }
-                if(realCollision){
-                    game.getBullets().remove(b);
-                }
+                // if(ColliderManager.isCollidingAnyWalls(game, new LineCollider(bullet.getXPosition() - bullet.getXVelocity()*deltaTime/1000000000*0.5,bullet.getYPosition() - bullet.getYVelocity()*deltaTime/1000000000*0.5, bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000*1.6, bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000*1.6)).size() == 0)
+                // {
+                //     bullet.setXPosition((float)(bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000));
+                //     bullet.setYPosition((float)(bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000));
+                // }
+                // else{
+                //     realCollision = true;
+                // }
+                // if(realCollision){
+                //     game.getBullets().remove(b);
+                // }
+                bullet.setXPosition((float)(bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000));
+                bullet.setYPosition((float)(bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000));
             }
         }
         synchronized (game.getLocalBullets())
@@ -268,31 +270,34 @@ public class GameManager implements Runnable {
             for(int b = game.getLocalBullets().size()-1; b >= 0;b--)
             {
                 Bullet bullet = game.getLocalBullets().get(b);
-                boolean realCollision = false;
-                ArrayList<Player> playerCollisons = ColliderManager.isCollidingAnyPlayers(game,new LineCollider(bullet.getXPosition(),bullet.getYPosition(), bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000*1.5, bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000*1.5));
-                if(playerCollisons.size() != 0){
-                    for(int i = 0; i < playerCollisons.size(); i++)
-                    {   
-                        if(playerCollisons.get(i).getHealth() >= 0){
-                            playerCollisons.get(i).setHealth(playerCollisons.get(i).getHealth() - (bullet.getDamage()));
-                            realCollision = true;
-                        }
-                    }
+                // boolean realCollision = false;
+                // ArrayList<Player> playerCollisons = ColliderManager.isCollidingAnyPlayers(game,new LineCollider(bullet.getXPosition(),bullet.getYPosition(), bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000*1.5, bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000*1.5));
+                // if(playerCollisons.size() != 0){
+                //     for(int i = 0; i < playerCollisons.size(); i++)
+                //     {   
+                //         if(playerCollisons.get(i).getHealth() >= 0){
+                //             playerCollisons.get(i).setHealth(playerCollisons.get(i).getHealth() - (bullet.getDamage()));
+                //             realCollision = true;
+                //         }
+                //     }
                     
-                }
+                // }
 
-                if(ColliderManager.isCollidingAnyWalls(game, new LineCollider(bullet.getXPosition() - bullet.getXVelocity()*deltaTime/1000000000*0.5,bullet.getYPosition() - bullet.getYVelocity()*deltaTime/1000000000*0.5, bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000*1.6, bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000*1.6)).size() == 0)
-                {
-                    bullet.setXPosition((float)(bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000));
-                    bullet.setYPosition((float)(bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000));
-                }
-                else{
-                    realCollision = true;
-                }
-                if(realCollision){
-                    game.getLocalBullets().remove(b);
-                }
+                // if(ColliderManager.isCollidingAnyWalls(game, new LineCollider(bullet.getXPosition() - bullet.getXVelocity()*deltaTime/1000000000*0.5,bullet.getYPosition() - bullet.getYVelocity()*deltaTime/1000000000*0.5, bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000*1.6, bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000*1.6)).size() == 0)
+                // {
+                //     bullet.setXPosition((float)(bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000));
+                //     bullet.setYPosition((float)(bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000));
+                // }
+                // else{
+                //     realCollision = true;
+                // }
+                // if(realCollision){
+                //     game.getLocalBullets().remove(b);
+                // }
+                bullet.setXPosition((float)(bullet.getXPosition()+bullet.getXVelocity()*deltaTime/1000000000));
+                bullet.setYPosition((float)(bullet.getYPosition()+bullet.getYVelocity()*deltaTime/1000000000));
             }
+            
         }
     }   
 }

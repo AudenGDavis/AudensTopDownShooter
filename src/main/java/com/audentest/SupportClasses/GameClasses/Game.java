@@ -112,8 +112,9 @@ public class Game
             if(serverEntry.getKey() != localPlayer)
             {
                 players.put(serverEntry.getKey(), serverEntry.getValue());
-            }
+            } 
         }
+        this.players.get(localPlayer).setHealth(serverGame.getPlayers().get(localPlayer).getHealth());
         
     }
 
