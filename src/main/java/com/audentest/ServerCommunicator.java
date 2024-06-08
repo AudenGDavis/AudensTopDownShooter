@@ -1,55 +1,43 @@
 package com.audentest;
 
 import com.audentest.SupportClasses.GameClasses.Game;
-import com.audentest.SupportClasses.NetworkingClasses.ClientReciever;
-import com.audentest.SupportClasses.NetworkingClasses.ClientSender;
+import com.audentest.SupportClasses.NetworkingClasses.ClientCommunicator;
 import com.audentest.SupportClasses.NetworkingClasses.PlayerConnection;
 
 import java.net.Socket;
-
-import javax.swing.text.PlainDocument;
-
+import java.net.InetSocketAddress;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import com.google.gson.Gson; 
+import com.google.gson.Gson;
+import java.net.SocketAddress;
+
 
 public class ServerCommunicator
 {
     private Game game;
     private int portNumber;
-    private String ipAddress = "127.0.0.1";
     private Gson gson = new Gson();
-    private ClientReciever clientReciever;
+    private ClientCommunicator clientCommunicator;
     private PlayerConnection playerConnection;
-    private ClientSender clientSender;
+    private GameEngine engine;
 
-    public ServerCommunicator(Game Game, int PortNumber)
+    public ServerCommunicator(String ipAddress,Game Game, int PortNumber) throws Exception
     {
         game = Game;
         portNumber = PortNumber;
+        SocketAddress socketAddress = new InetSocketAddress(ipAddress, portNumber);
+        Socket server = new Socket();
+        server.connect(socketAddress, 2000);
 
-        try 
-        {
-            Socket server = new Socket(ipAddress,portNumber);
-            BufferedReader in = new BufferedReader(new InputStreamReader(server.getInputStream()));
 
-            playerConnection = gson.fromJson(in.readLine(), PlayerConnection.class);
-            System.out.println(playerConnection.getGame().toString());
-            
-            game.importGame(playerConnection.getGame());
-            System.out.println(game);
-            clientReciever = new ClientReciever(playerConnection.getIpAddress(), playerConnection.getClientRecieverPortNumber(), game,playerConnection.getPlayerID());
-            new Thread(clientReciever).start();
+        BufferedReader in = new BufferedReader(new InputStreamReader(server.getInputStream()));
+        playerConnection = gson.fromJson(in.readLine(), PlayerConnection.class);
 
-            clientSender = new ClientSender(playerConnection.getIpAddress(), playerConnection.getClientSenderPortNumber(), game, playerConnection.getPlayerID());
-            new Thread(clientSender).start();
-            System.out.println("starting..");
-            server.close();
-        } 
-        catch (Exception e) 
-        {
-
-        }
+        game.importGame(playerConnection.getGame());
+        engine = new GameEngine(ipAddress, playerConnection,game);
+        clientCommunicator = new ClientCommunicator(playerConnection.getIpAddress(), playerConnection.getPortNumber(), game,playerConnection.getPlayerID());
+        new Thread(clientCommunicator).start();
+        server.close();
     }
 
     public PlayerConnection getPlayerConnection()

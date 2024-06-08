@@ -2,37 +2,27 @@ package com.audentest.SupportClasses.NetworkingClasses;
 
 import com.audentest.SupportClasses.GameClasses.Game;
 
-public class PlayerConnection {
-    private int clientSenderPortNumber;
-    private int clientRecieverPortNumber;
+public class PlayerConnection 
+{
+    private int portNumber;
     private String ipAddress;
     private int playerID;
     private Game game;
 
-    public PlayerConnection(int ClientSenderPortNumber, int ClientRecieverPortNumber, String IpAddress, int PlayerID,Game Game){
-        clientSenderPortNumber = ClientSenderPortNumber;
-        clientRecieverPortNumber = ClientRecieverPortNumber;
+    public PlayerConnection(int PortNumber, String IpAddress, int PlayerID,Game Game){
+        portNumber = PortNumber;
         ipAddress = IpAddress;
         playerID = PlayerID;
         game = Game;
     }
 
-    // Synchronized getter and setter for clientSenderPortNumber
-    public int getClientSenderPortNumber() {
-        return clientSenderPortNumber;
-    }
-
-    public void setClientSenderPortNumber(int clientSenderPortNumber) {
-        this.clientSenderPortNumber = clientSenderPortNumber;
-    }
-
     // Synchronized getter and setter for clientRecieverPortNumber
-    public int getClientRecieverPortNumber() {
-        return clientRecieverPortNumber;
+    public int getPortNumber() {
+        return portNumber;
     }
 
-    public void setClientRecieverPortNumber(int clientRecieverPortNumber) {
-        this.clientRecieverPortNumber = clientRecieverPortNumber;
+    public void setPortNumber(int PortNumber) {
+        this.portNumber = PortNumber;
     }
 
     // Synchronized getter and setter for ipAddress

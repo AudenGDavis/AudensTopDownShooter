@@ -95,14 +95,14 @@ public class GamePanel extends JPanel
         {
             Bullet bullet = game.getBullets().get(b);
             g.setStroke(new BasicStroke(zoom * 5));
-            g.drawLine((int)worldToFrameX(bullet.getXPosition()), (int)worldToFrameY(bullet.getYPosition()), (int)worldToFrameX(bullet.getXPosition() + bullet.getXVelocity()/100), (int)worldToFrameY(bullet.getYPosition() + bullet.getYVelocity()/100));
+            g.drawLine((int)worldToFrameX(bullet.getXPosition()), (int)worldToFrameY(bullet.getYPosition()), (int)worldToFrameX(bullet.getXPosition() + bullet.getXVelocity()/50), (int)worldToFrameY(bullet.getYPosition() + bullet.getYVelocity()/50));
         }
 
         for (int b = 0; b < game.getLocalBullets().size(); b++)
         {
             Bullet bullet = game.getLocalBullets().get(b);
             g.setStroke(new BasicStroke(zoom * 5));
-            g.drawLine((int)worldToFrameX(bullet.getXPosition()), (int)worldToFrameY(bullet.getYPosition()), (int)worldToFrameX(bullet.getXPosition() + bullet.getXVelocity()/100), (int)worldToFrameY(bullet.getYPosition() + bullet.getYVelocity()/100));
+            g.drawLine((int)worldToFrameX(bullet.getXPosition()), (int)worldToFrameY(bullet.getYPosition()), (int)worldToFrameX(bullet.getXPosition() + bullet.getXVelocity()/50), (int)worldToFrameY(bullet.getYPosition() + bullet.getYVelocity()/50));
         }
 
         //draw shadows

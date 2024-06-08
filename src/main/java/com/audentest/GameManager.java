@@ -7,8 +7,6 @@ import java.util.Map;
 import com.audentest.SupportClasses.GameClasses.Game;
 import com.audentest.SupportClasses.GameClasses.Gun;
 import com.audentest.SupportClasses.GameClasses.Player;
-import com.audentest.SupportClasses.NetworkingClasses.ClientReciever;
-import com.audentest.SupportClasses.NetworkingClasses.ClientSender;
 import com.audentest.SupportClasses.PhysicsClasses.LineCollider;
 import com.audentest.SupportClasses.PhysicsClasses.Vector2;
 import com.audentest.SupportClasses.GameClasses.Bullet;
@@ -87,7 +85,6 @@ public class GameManager implements Runnable {
     {
         
         Gun gun = game.getPlayers().get(localPlayer).getGun();
-        System.out.println(game.getPlayers().get(localPlayer).getGun().getReloadTime() + " - " + game.getPlayers().get(localPlayer).getGun().getReloadTimeRequirment());
         if(game.getPlayers().get(localPlayer).getGun().getReloadTime() >= game.getPlayers().get(localPlayer).getGun().getReloadTimeRequirment())
         {
             if(ColliderManager.isCollidingAnyWalls(
@@ -117,7 +114,7 @@ public class GameManager implements Runnable {
     synchronized private void update()
     {
         //shoot local players bullet if isFiring
-        if(isFiring)
+        if(isFiring && game.getPlayers().get(localPlayer).getHealth() > 0)
         {
             
             this.fireBullet();
@@ -175,38 +172,41 @@ public class GameManager implements Runnable {
         //update player's positions and their respective gun reload times
         for (Map.Entry<Integer, Player> playerEntry : game.getPlayers().entrySet()) 
         {
-            //reloading their gun
-            game.getPlayers().get(playerEntry.getKey()).getGun().setReloadTime((float)(
-                game.getPlayers().get(playerEntry.getKey()).getGun().getReloadTime() >= game.getPlayers().get(playerEntry.getKey()).getGun().getReloadTimeRequirment()? 
-                game.getPlayers().get(playerEntry.getKey()).getGun().getReloadTimeRequirment() : game.getPlayers().get(playerEntry.getKey()).getGun().getReloadTime() + deltaTime/1000000000
-            ));
-
-            //adjust players position
-            game.getPlayers().get(playerEntry.getKey()).setXPosition(game.getPlayers().get(playerEntry.getKey()).getXVelocity()*(deltaTime/1000000000) + game.getPlayers().get(playerEntry.getKey()).getXPosition());
-            game.getPlayers().get(playerEntry.getKey()).setYPosition(game.getPlayers().get(playerEntry.getKey()).getYVelocity()*(deltaTime/1000000000) + game.getPlayers().get(playerEntry.getKey()).getYPosition());
-
-
-
-
-            //adjust player in they're colliding
-            Vector2 collision = ColliderManager.isCollidingAny(game, game.getPlayers().get(playerEntry.getKey()));
-            while(collision != null)
+            if(playerEntry.getValue().getHealth() > 0)
             {
-                double dy = game.getPlayers().get(playerEntry.getKey()).getYPosition() - collision.getY();
-                double dx = game.getPlayers().get(playerEntry.getKey()).getXPosition() - collision.getX();
+                //reloading their gun
+                game.getPlayers().get(playerEntry.getKey()).getGun().setReloadTime((float)(
+                    game.getPlayers().get(playerEntry.getKey()).getGun().getReloadTime() >= game.getPlayers().get(playerEntry.getKey()).getGun().getReloadTimeRequirment()? 
+                    game.getPlayers().get(playerEntry.getKey()).getGun().getReloadTimeRequirment() : game.getPlayers().get(playerEntry.getKey()).getGun().getReloadTime() + deltaTime/1000000000
+                ));
 
-                double s = Math.sqrt(dy*dy + dx*dx)/game.getPlayers().get(playerEntry.getKey()).getSize();
+                //adjust players position
+                game.getPlayers().get(playerEntry.getKey()).setXPosition(game.getPlayers().get(playerEntry.getKey()).getXVelocity()*(deltaTime/1000000000) + game.getPlayers().get(playerEntry.getKey()).getXPosition());
+                game.getPlayers().get(playerEntry.getKey()).setYPosition(game.getPlayers().get(playerEntry.getKey()).getYVelocity()*(deltaTime/1000000000) + game.getPlayers().get(playerEntry.getKey()).getYPosition());
 
-                dy = dy/s*1.00001;
-                dx = dx/s*1.00001;
 
+
+
+                //adjust player in they're colliding
+                Vector2 collision = ColliderManager.isCollidingAny(game, game.getPlayers().get(playerEntry.getKey()));
+                while(collision != null)
+                {
+                    double dy = game.getPlayers().get(playerEntry.getKey()).getYPosition() - collision.getY();
+                    double dx = game.getPlayers().get(playerEntry.getKey()).getXPosition() - collision.getX();
+
+                    double s = Math.sqrt(dy*dy + dx*dx)/game.getPlayers().get(playerEntry.getKey()).getSize();
+
+                    dy = dy/s*1.00001;
+                    dx = dx/s*1.00001;
+
+                    
+
+                    game.getPlayers().get(playerEntry.getKey()).setXPosition(collision.getX() + dx);
+                    game.getPlayers().get(playerEntry.getKey()).setYPosition(collision.getY() + dy);
                 
-
-                game.getPlayers().get(playerEntry.getKey()).setXPosition(collision.getX() + dx);
-                game.getPlayers().get(playerEntry.getKey()).setYPosition(collision.getY() + dy);
-               
-                collision = ColliderManager.isCollidingAny(game, game.getPlayers().get(playerEntry.getKey()));
-            } 
+                    collision = ColliderManager.isCollidingAny(game, game.getPlayers().get(playerEntry.getKey()));
+                } 
+            }
         }
         //set local player angle
         double dx = MouseInputManager.getMouseX() - gamePanel.getWidth()/2;

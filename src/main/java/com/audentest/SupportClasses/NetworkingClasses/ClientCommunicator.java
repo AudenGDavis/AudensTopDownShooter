@@ -7,28 +7,30 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import com.google.gson.Gson;
-public class ClientSender implements  Runnable
+import com.google.gson.JsonSyntaxException;
+
+public class ClientCommunicator implements Runnable
 {
     private String ipAddress;
     private int portNumber;
     private Game game;
     private Gson gson;
     private int localPlayer;
-
-    public ClientSender(String IpAddress, int PortNumber, Game Game, int LocalPlayer)
+    private BufferedReader in = null;
+    public ClientCommunicator(String IpAddress, int PortNumber, Game Game,int LocalPlayer)
     {
         ipAddress = IpAddress;
         portNumber = PortNumber;
         game = Game;
-        gson = new Gson();
         localPlayer = LocalPlayer;
+        gson = new Gson();
     }
 
 
     public void run() 
     {
         Socket server;
-        BufferedReader in = null;
+        
 		PrintWriter out = null;
 
         try 
@@ -45,13 +47,16 @@ public class ClientSender implements  Runnable
 
         while(true)
         {
-            try {
+            try
+            {
+                game.updateFromServer(gson.fromJson(in.readLine(),Game.class), localPlayer);
                 out.println(gson.toJson(game.getClientPackage(localPlayer),ClientPackage.class));
-            } catch (Exception e) {
+            } 
+            catch (Exception e) 
+            {
                 e.printStackTrace();
             }
         }
         
     }
-    
 }
