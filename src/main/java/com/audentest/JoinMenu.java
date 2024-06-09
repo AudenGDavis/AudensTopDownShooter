@@ -69,7 +69,6 @@ public class JoinMenu extends JFrame
         {
             public void actionPerformed(ActionEvent e) 
             {
-                errorLabel.setText("test");
                 try
                 {
                     ServerCommunicator serverCommunicator;
@@ -79,7 +78,6 @@ public class JoinMenu extends JFrame
                 } 
                 catch (Exception exception)
                 {
-                    exception.printStackTrace();
                     errorLabel.setText("unable to connect");
                 }
             }
