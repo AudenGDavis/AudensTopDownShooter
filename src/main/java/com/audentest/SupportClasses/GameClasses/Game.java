@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.audentest.SupportClasses.NetworkingClasses.ClientPackage;
+import com.audentest.SupportClasses.NetworkingClasses.ServerPackage;
 
 public class Game 
 {
@@ -102,19 +103,17 @@ public class Game
         }
     }
 
-    public synchronized void updateFromServer(Game serverGame, int localPlayer)
+    public synchronized void updateFromServer(ServerPackage serverUpdate, int localPlayer)
     {
-        
-        this.walls = serverGame.getWalls();
-        this.bullets = serverGame.getBullets();
-        for (Map.Entry<Integer, Player> serverEntry : serverGame.getPlayers().entrySet()) 
+        this.bullets = serverUpdate.getBullets();
+        for (Map.Entry<Integer, Player> serverEntry : serverUpdate.getPlayers().entrySet()) 
         {
             if(serverEntry.getKey() != localPlayer)
             {
                 players.put(serverEntry.getKey(), serverEntry.getValue());
             } 
         }
-        this.players.get(localPlayer).setHealth(serverGame.getPlayers().get(localPlayer).getHealth());
+        this.players.get(localPlayer).setHealth(serverUpdate.getPlayers().get(localPlayer).getHealth());
         
     }
 

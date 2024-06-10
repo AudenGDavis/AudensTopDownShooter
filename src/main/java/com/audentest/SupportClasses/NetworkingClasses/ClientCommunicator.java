@@ -29,29 +29,41 @@ public class ClientCommunicator implements Runnable {
     }
 
     public void run() {
-        try {
+        try 
+        {
             System.out.println("Attempting to connect to server at " + ipAddress + ":" + portNumber);
             server = new Socket(ipAddress, portNumber);
             in = new BufferedReader(new InputStreamReader(server.getInputStream()));
             out = new PrintWriter(server.getOutputStream(), true);
             System.out.println("Connected to server");
 
+            String response = in.readLine();
+            //import game from server
+            System.out.println( "\"" + response + "\"");
+            
+            game.importGame(gson.fromJson(response, Game.class));
+            System.out.println("imported");
             while (running) {
-                try {
+                try 
+                {
+                    String clientPackage = gson.toJson(game.getClientPackage(localPlayer), ClientPackage.class);
+                    out.println(clientPackage);
+
                     String serverMessage = in.readLine();
                     if (serverMessage == null) {
                         System.out.println("Server closed the connection");
                         break;
                     }
-                    Game updatedGame = gson.fromJson(serverMessage, Game.class);
+                    ServerPackage updatedGame = gson.fromJson(serverMessage, ServerPackage.class);
                     game.updateFromServer(updatedGame, localPlayer);
-
-                    String clientPackage = gson.toJson(game.getClientPackage(localPlayer), ClientPackage.class);
-                    out.println(clientPackage);
-                } catch (JsonSyntaxException e) {
+                } 
+                catch (JsonSyntaxException e) 
+                {
                     System.err.println("Error parsing JSON: " + e.getMessage());
                     e.printStackTrace();
-                } catch (IOException e) {
+                } 
+                catch (IOException e) 
+                {
                     System.err.println("IOException during communication: " + e.getMessage());
                     e.printStackTrace();
                     break; // Exit loop on IO exceptions
