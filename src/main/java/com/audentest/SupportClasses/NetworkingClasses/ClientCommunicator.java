@@ -9,54 +9,81 @@ import java.io.PrintWriter;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-public class ClientCommunicator implements Runnable
-{
-    private String ipAddress;
-    private int portNumber;
-    private Game game;
-    private Gson gson;
-    private int localPlayer;
+public class ClientCommunicator implements Runnable {
+    private final String ipAddress;
+    private final int portNumber;
+    private final Game game;
+    private final Gson gson;
+    private final int localPlayer;
     private BufferedReader in = null;
-    public ClientCommunicator(String IpAddress, int PortNumber, Game Game,int LocalPlayer)
-    {
-        ipAddress = IpAddress;
-        portNumber = PortNumber;
-        game = Game;
-        localPlayer = LocalPlayer;
-        gson = new Gson();
+    private PrintWriter out = null;
+    private Socket server = null;
+    private volatile boolean running = true;
+
+    public ClientCommunicator(String ipAddress, int portNumber, Game game, int localPlayer) {
+        this.ipAddress = ipAddress;
+        this.portNumber = portNumber;
+        this.game = game;
+        this.localPlayer = localPlayer;
+        this.gson = new Gson();
     }
 
-
-    public void run() 
-    {
-        Socket server;
-        
-		PrintWriter out = null;
-
-        try 
-        {
-            server = new Socket(ipAddress,portNumber);
+    public void run() {
+        try {
+            System.out.println("Attempting to connect to server at " + ipAddress + ":" + portNumber);
+            server = new Socket(ipAddress, portNumber);
             in = new BufferedReader(new InputStreamReader(server.getInputStream()));
-		    out = new PrintWriter(server.getOutputStream(),true);
-        } 
-        catch (IOException e) 
-        {
+            out = new PrintWriter(server.getOutputStream(), true);
+            System.out.println("Connected to server");
+
+            while (running) {
+                try {
+                    String serverMessage = in.readLine();
+                    if (serverMessage == null) {
+                        System.out.println("Server closed the connection");
+                        break;
+                    }
+                    Game updatedGame = gson.fromJson(serverMessage, Game.class);
+                    game.updateFromServer(updatedGame, localPlayer);
+
+                    String clientPackage = gson.toJson(game.getClientPackage(localPlayer), ClientPackage.class);
+                    out.println(clientPackage);
+                } catch (JsonSyntaxException e) {
+                    System.err.println("Error parsing JSON: " + e.getMessage());
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    System.err.println("IOException during communication: " + e.getMessage());
+                    e.printStackTrace();
+                    break; // Exit loop on IO exceptions
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to connect to server: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            closeResources();
+        }
+    }
+
+    public void stop() {
+        running = false;
+        closeResources();
+    }
+
+    private void closeResources() {
+        try {
+            if (in != null) {
+                in.close();
+            }
+            if (out != null) {
+                out.close();
+            }
+            if (server != null) {
+                server.close();
+            }
+        } catch (IOException e) {
+            System.err.println("Error closing resources: " + e.getMessage());
             e.printStackTrace();
         }
-        
-
-        while(true)
-        {
-            try
-            {
-                game.updateFromServer(gson.fromJson(in.readLine(),Game.class), localPlayer);
-                out.println(gson.toJson(game.getClientPackage(localPlayer),ClientPackage.class));
-            } 
-            catch (Exception e) 
-            {
-                e.printStackTrace();
-            }
-        }
-        
     }
 }

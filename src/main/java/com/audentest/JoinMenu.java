@@ -74,11 +74,13 @@ public class JoinMenu extends JFrame
                     ServerCommunicator serverCommunicator;
                     Game game = new Game();
                     serverCommunicator = new ServerCommunicator(ipField.getText(),game,42069);
+                    System.out.println(ipField.getText());
+
                     This.setVisible(false);
                 } 
                 catch (Exception exception)
                 {
-                    errorLabel.setText("unable to connect");
+                    errorLabel.setText("unable to connect to \"" + ipField.getText() + "\"");
                 }
             }
             

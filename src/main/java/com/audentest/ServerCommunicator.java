@@ -31,10 +31,13 @@ public class ServerCommunicator
 
 
         BufferedReader in = new BufferedReader(new InputStreamReader(server.getInputStream()));
-        playerConnection = gson.fromJson(in.readLine(), PlayerConnection.class);
+        String response = in.readLine();
+        System.out.println(response);
+        playerConnection = gson.fromJson(response, PlayerConnection.class);
 
         game.importGame(playerConnection.getGame());
         engine = new GameEngine(ipAddress, playerConnection,game);
+        System.out.println(playerConnection.getIpAddress() + " <--- ");
         clientCommunicator = new ClientCommunicator(playerConnection.getIpAddress(), playerConnection.getPortNumber(), game,playerConnection.getPlayerID());
         new Thread(clientCommunicator).start();
         server.close();
