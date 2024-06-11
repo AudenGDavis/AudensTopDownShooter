@@ -36,7 +36,7 @@ public class GameManager implements Runnable {
         renderingThread = new Thread(() -> {
             while (true) {
                 // Render game graphics
-                gamePanel.repaint();
+                gamePanel.repaint();;
 
                 // Sleep for a short interval
                 try {

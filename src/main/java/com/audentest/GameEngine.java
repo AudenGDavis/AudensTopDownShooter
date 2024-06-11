@@ -1,17 +1,11 @@
 package com.audentest;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 import com.audentest.SupportClasses.GameClasses.Game;
-import com.audentest.SupportClasses.GameClasses.Gun;
-import com.audentest.SupportClasses.GameClasses.Bullet;
-import com.audentest.SupportClasses.GameClasses.Player;
-import com.audentest.SupportClasses.GameClasses.Wall;
 import com.audentest.SupportClasses.NetworkingClasses.PlayerConnection;
-import com.audentest.SupportClasses.PhysicsClasses.Vector2;
 
 public class GameEngine extends JFrame
 {

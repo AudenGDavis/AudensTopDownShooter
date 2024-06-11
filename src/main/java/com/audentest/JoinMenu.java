@@ -3,20 +3,13 @@ package com.audentest;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.border.Border;
-
 import com.audentest.SupportClasses.GameClasses.Game;
 
-import javax.swing.BorderFactory;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
 public class JoinMenu extends JFrame

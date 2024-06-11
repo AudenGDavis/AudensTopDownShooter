@@ -46,6 +46,7 @@ public class GamePanel extends JPanel
 
     public void paint(Graphics G)
     { 
+        super.paint(G);
         this.setBounds(0,0,parentFrame.getWidth(),parentFrame.getHeight());
         xCamera = game.getPlayers().get(localPlayer).getXPosition();
         yCamera = game.getPlayers().get(localPlayer).getYPosition();
